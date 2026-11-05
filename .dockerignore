@@ -1,0 +1,11 @@
+# The image needs exactly one file: recorder.py. Everything else here is repo-only.
+.git/
+media/
+*.part
+__pycache__/
+*.pyc
+README.md
+selftest.py
+verify.py
+docker-compose.yml
+docker-compose.host-quirks.yml

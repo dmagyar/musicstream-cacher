@@ -1,0 +1,7 @@
+# The buffer itself never belongs in git. Keep the folder, ignore its contents.
+media/*
+!media/.gitkeep
+
+*.part
+__pycache__/
+*.pyc

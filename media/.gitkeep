@@ -1,0 +1,2 @@
+The rolling buffer lives here (mounted into the container at /media).
+Contents are gitignored: 01.mp3 .. 10.mp3 and recording-*.part.

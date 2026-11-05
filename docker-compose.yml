@@ -1,0 +1,21 @@
+services:
+  musicstream-cacher:
+    build: .
+    image: musicstream-cacher:1
+    container_name: musicstream-cacher
+    restart: unless-stopped
+    # This sandbox host needs the overlay (see README / host-quirks file):
+    #   docker compose -f docker-compose.yml -f docker-compose.host-quirks.yml up -d
+    environment:
+      # --- the one setting you probably want to change ---
+      STREAM_URL: "https://25503.live.streamtheworld.com/OWR_INTERNATIONAL.mp3"
+      CHUNK_SECONDS: "1800"        # 30 min per file
+      KEEP: "10"                   # 10 files -> 5 h rolling window
+      TZ: "Europe/Amsterdam"       # log timestamps + ID3 time ranges
+      # READ_TIMEOUT: "20"         # stall timeout before reconnecting
+      # USER_AGENT: "Mozilla/5.0"  # some stations 403 a non-browser UA
+      # TLS_VERIFY: "0"            # only for stream hosts with a broken chain
+    volumes:
+      - ./media:/media             # exactly 01.mp3 .. 10.mp3 live here, plus the
+                                   # in-progress recording-<epoch>.part
+    # user: "1000:1000"            # uncomment if ./media is owned by another uid

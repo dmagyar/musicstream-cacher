@@ -1,0 +1,27 @@
+# Host-quirk override for THIS machine only.
+
+# This host's dockerd cannot read /sys/kernel/security/apparmor/profiles (the sandbox
+# denies it even to root), so every container start fails with
+#   Could not check if docker-default AppArmor profile was loaded: permission denied
+# unless the container is explicitly unconfined. Nothing to do with this app — plain
+# `docker run python:3.12-slim id` fails the same way here.
+
+# Use it as an overlay:
+#   docker compose -f docker-compose.yml -f docker-compose.host-quirks.yml up -d
+#
+# On a normal host, do NOT use this file: it drops the default AppArmor profile, which
+# is a (thin) extra layer of confinement.
+#
+# Fix the daemon once instead, if you want plain `docker compose up` to work here:
+#   /etc/docker/daemon.json -> {"default-apparmor-profile": "unconfined"}  + restart dockerd
+# (that also unblocks the other containers sitting in "Created" state on this box).
+
+services:
+  musicstream-cacher:
+    security_opt:
+      - apparmor=unconfined
+    # The same daemon bug breaks `docker exec` (health checks run as execs), so the
+    # image's HEALTHCHECK can never run here and would only report a false "unhealthy".
+    # The image keeps it — it works on a normal host.
+    healthcheck:
+      disable: true
