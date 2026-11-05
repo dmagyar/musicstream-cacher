@@ -26,7 +26,7 @@ match `*.mp3`, so the folder always counts exactly `KEEP` mp3s. Nothing is pre-c
 an empty placeholder: during the first `KEEP × CHUNK_SECONDS` the folder legitimately
 holds fewer files.
 
-Default stream: [One World Radio](https://oneworldradio.tomorrowland.com/) —
+Default stream: [One World Radio](https://www.tomorrowland.com/one-world-radio/) —
 `https://25503.live.streamtheworld.com/OWR_INTERNATIONAL.mp3` (192 kbps MPEG-1 Layer III).
 
 ## Quick start
