@@ -38,6 +38,22 @@ docker logs -f musicstream-cacher
 ls -l media/
 ```
 
+### With the published image
+
+`docker compose up -d` builds the image locally. To use the published one instead
+(`docker pull dmagyar/musicstream-cacher`), run it directly:
+
+```bash
+docker run -d --name musicstream-cacher --restart unless-stopped \
+  -v "$PWD/media:/media" \
+  -e TZ=Europe/Amsterdam \
+  dmagyar/musicstream-cacher:1
+```
+
+or keep compose and replace `build: .` with
+`image: dmagyar/musicstream-cacher:1`. The media folder must be writable by uid 1000, the
+user the image runs as.
+
 First file after `CHUNK_SECONDS`, a full window after `KEEP × CHUNK_SECONDS` (5 h).
 Disk: 192 kbps ≈ 86 MB/h → 5 h ≈ **430 MB**, plus one in-progress chunk (~43 MB).
 

@@ -5,6 +5,18 @@
 # /sys/kernel/security/apparmor/profiles fails every RUN step).
 FROM python:3.12-slim
 
+# OCI provenance labels: Docker Hub shows these on the repository page, and the revision
+# pins which commit the layers were built from. Metadata only - still a RUN-free build.
+#   docker build --build-arg GIT_REVISION=$(git rev-parse HEAD) -t musicstream-cacher:1 .
+ARG GIT_REVISION=unknown
+ARG VERSION=1
+LABEL org.opencontainers.image.title="musicstream-cacher" \
+      org.opencontainers.image.description="Rolling-buffer internet radio recorder: exactly KEEP mp3 files of CHUNK_SECONDS each, so the media folder always holds the last 5 hours of a live ICY/Shoutcast MP3 stream." \
+      org.opencontainers.image.source="https://github.com/dmagyar/musicstream-cacher" \
+      org.opencontainers.image.url="https://hub.docker.com/r/dmagyar/musicstream-cacher" \
+      org.opencontainers.image.revision="${GIT_REVISION}" \
+      org.opencontainers.image.version="${VERSION}"
+
 ENV PYTHONUNBUFFERED=1 \
     PYTHONUTF8=1 \
     PYTHONDONTWRITEBYTECODE=1
